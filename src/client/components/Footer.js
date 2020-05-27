@@ -8,6 +8,6 @@ export default function Footer() {
         textAlign: 'center',
         color: 'white'
       }}>Footer</h1>
-    </div >
+    </div>
   )
 }

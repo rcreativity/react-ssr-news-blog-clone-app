@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import serialize from 'serialize-javascript';
 import { Helmet } from 'react-helmet';
-import Routes from '../client/Routes/index';
+import Routes from '../client/Routes';
 
 export default (req, store, context) => {
   const content = renderToString(
@@ -28,9 +28,9 @@ export default (req, store, context) => {
                 <div id="root">${content}</div>
                 <script>
                     window.__PRELOADED_STATE__ = ${serialize(store.getState()).replace(
-    /</g,
-    '\\u003c'
-  )}
+                      /</g,
+                      '\\u003c'
+                    )}
                 </script>
                 <script src="/bundle.js"></script>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

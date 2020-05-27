@@ -1,17 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1 style={{
-        background: 'purple',
-        textAlign: 'center',
-        height: '500px',
-        color: 'white'
-      }}>Header</h1>
-    </div >
+    <h1>Hello World</h1>
   )
-}
+};
+
 
 export default {
   component: HomePage

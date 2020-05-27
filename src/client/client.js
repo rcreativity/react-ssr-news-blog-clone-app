@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+// Startup point for client-side application
+
 import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,7 +11,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import reducers from './reducers';
-import Routes from './routes/index';
+import Routes from './Routes';
 
 const state = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;

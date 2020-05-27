@@ -20,8 +20,8 @@ const config = {
   // that is generated
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
-  },
+    path: path.resolve(__dirname, 'build')
+  }
 };
 
 module.exports = merge(baseConfig, config);

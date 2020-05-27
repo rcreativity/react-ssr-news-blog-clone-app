@@ -9,7 +9,7 @@ export default [
         ...HomePage,
         path: '/',
         exact: true
-      }
+      },
     ]
   }
 ];

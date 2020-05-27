@@ -4,15 +4,15 @@ module.exports = {
     rules: [
       {
         test: /\.js?$/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
           presets: [
-            "@babel/preset-react",
-            ["@babel/env", { targets: { browsers: ["last 2 versions"] } }],
-          ],
-        },
+            '@babel/preset-react',
+            ['@babel/env', { targets: { browsers: ['last 2 versions'] } }]
+          ]
+        }
       }
-    ],
-  },
+    ]
+  }
 };
