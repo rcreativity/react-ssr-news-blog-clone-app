@@ -23,14 +23,15 @@ export default (req, store, context) => {
                 ${helmet.link.toString()}
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <link rel="stylesheet" href="/style.css"/>
             </head>
             <body>
                 <div id="root">${content}</div>
                 <script>
                     window.__PRELOADED_STATE__ = ${serialize(store.getState()).replace(
-                      /</g,
-                      '\\u003c'
-                    )}
+    /</g,
+    '\\u003c'
+  )}
                 </script>
                 <script src="/bundle.js"></script>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
