@@ -2,6 +2,8 @@
 
 ## first successful react server side rendering
 
-![alt text][screenshot/Screenshot 2020-05-28 at 12.34.12 AM.png]
+frontend code render view: 
+![frontend code](https://raw.githubusercontent.com/rcreativity/react-ssr-news-blog-clone-app/first-success-page-ssr-render/screenshot/Screenshot%202020-05-28%20at%2012.34.02%20AM.png "generated code")
 
-![alt text][screenshot/Screenshot 2020-05-28 at 12.34.02 AM.png]
+generated code: 
+![generated code](https://raw.githubusercontent.com/rcreativity/react-ssr-news-blog-clone-app/first-success-page-ssr-render/screenshot/Screenshot%202020-05-28%20at%2012.34.12%20AM.png "generated code")
