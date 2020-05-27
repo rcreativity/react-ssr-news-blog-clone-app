@@ -7,7 +7,6 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "test",
     "start": "node build/bundle.js",
     "build:prod": "rm -rf build && rm -rf public && webpack  --config webpack.server.js && webpack -p --config webpack.client.prod.js --mode production",
     "heroku-postbuild": "npm install && npm run build:prod",
