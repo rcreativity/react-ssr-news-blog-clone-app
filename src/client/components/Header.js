@@ -1,16 +1,13 @@
 import React from 'react'
 import './style.css';
+import { Title } from './styled.js'
 
 export default function Header() {
   return (
     <div>
-      <div>
-        <h1 style={{
-          background: 'green',
-          textAlign: 'center',
-          color: 'white'
-        }}>Header</h1>
-      </div>
+      <Title>
+        Hello World
+        </Title>
     </div>
   )
 }
