@@ -1,6 +1,9 @@
 {
   "name": "react-ssr-news-blog-clone-app",
   "version": "1.0.0",
+   "engines": {
+    "node": "10.14.2"
+  },
   "description": "React Server Side Rendering",
   "main": "index.js",
   "scripts": {
