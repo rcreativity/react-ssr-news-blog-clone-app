@@ -1,9 +1,18 @@
 import React from 'react';
+import { renderRoutes } from 'react-router-config';
+import ErrorBoundary from './components/ErrorBoundry';
 
-const App = () => {
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+const App = ({ route }) => {
   return (
     <div>
-      <h1>Hello World</h1>
+      <Header />
+      <div className="container">
+        <ErrorBoundary>{renderRoutes(route.routes)}</ErrorBoundary>
+      </div>
+      <Footer />
     </div>
   );
 };
