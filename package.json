@@ -1,10 +1,10 @@
 {
   "name": "react-ssr-news-blog-clone-app",
   "version": "1.0.0",
-   "engines": {
+  "description": "React Server Side Rendering",
+  "engines": {
     "node": "10.14.2"
   },
-  "description": "React Server Side Rendering",
   "main": "index.js",
   "scripts": {
     "start": "node build/bundle.js",
@@ -19,7 +19,7 @@
     "precommit": "pretty-quick --staged"
   },
   "author": "Ravikumar R",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "axios": "0.19.2",
@@ -62,11 +62,11 @@
     "eslint-plugin-flowtype": "^2.50.3",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "husky": "^4.2.5",
     "lint-staged": "^10.2.6",
+    "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "webpack-bundle-analyzer": "^3.8.0",
