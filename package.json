@@ -1,0 +1,11 @@
+{
+  "name": "react-ssr-news-blog-clone-app",
+  "version": "1.0.0",
+  "description": "React Server Side Rendering",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ravikumar R",
+  "license": "MIT"
+}
