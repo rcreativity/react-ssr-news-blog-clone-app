@@ -1,5 +1,5 @@
-import HomePage from '../pages/HomePage';
-import App from '../App';
+import HomePage from './pages/HomePage';
+import App from './App';
 
 export default [
   {

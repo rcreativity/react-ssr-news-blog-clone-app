@@ -12,7 +12,7 @@ module.exports = {
             ["@babel/env", { targets: { browsers: ["last 2 versions"] } }],
           ],
         },
-      },
+      }
     ],
   },
 };
