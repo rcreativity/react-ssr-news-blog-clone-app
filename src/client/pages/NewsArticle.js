@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { Table, Container, ButtonGroup } from './styled'
 import { getNews } from '../actions/index';
 
-const HomePage = (props) => {
+const NewsArticle = (props) => {
   const dispatch = useDispatch()
   const [pageNo, setPageNo] = useState(1)
 
@@ -81,17 +81,22 @@ const mapStateToProps = state => {
   };
 };
 
-const loadData = store => {
-  return store.dispatch(getNews());
+const loadData = (store, param) => {
+  console.log(param)
+  return store.dispatch(getNews(param));
 };
 
-HomePage.propTypes = {
+NewsArticle.propTypes = {
   news: PropTypes.arrayOf(PropTypes.any),
+  location: PropTypes.objectOf(PropTypes.any),
+  match: PropTypes.objectOf(PropTypes.any),
   getNews: PropTypes.func
 };
 
-HomePage.defaultProps = {
+NewsArticle.defaultProps = {
   news: [],
+  location: null,
+  match: null,
   getNews: null
 };
 
@@ -99,6 +104,6 @@ export default {
   component: connect(
     mapStateToProps,
     { getNews }
-  )(HomePage),
+  )(NewsArticle),
   loadData
 };

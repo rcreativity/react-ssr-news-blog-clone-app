@@ -1,4 +1,5 @@
 import HomePage from './pages/HomePage';
+import NewsArticle from './pages/NewsArticle';
 import App from './App';
 
 export default [
@@ -9,6 +10,10 @@ export default [
         ...HomePage,
         path: '/',
         exact: true
+      },
+      {
+        path: '/articles/:id',
+        ...NewsArticle
       },
     ]
   }
