@@ -39,6 +39,18 @@ const Table = styled.table`
   .up_vote{
     cursor: pointer;
   }
+  .articleTitle{
+    text-align: left;
+    button{
+      font-size: 10px;
+      cursor: pointer;
+      margin-left: 10px;
+      font-weight: 500;
+      background: #f6f6ef;
+      border-radius: 8px;
+      outline: none;
+    }
+  }
 
   @media only screen and (max-width: 767px) {
     display: block; 
