@@ -4,16 +4,20 @@ import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import serialize from 'serialize-javascript';
+// import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { Helmet } from 'react-helmet';
 import Routes from '../client/Routes';
 
 export default (req, store, context) => {
+  // const sheet = new ServerStyleSheet();
   const content = renderToString(
+    // <StyleSheetManager sheet={sheet.instance}>
     <Provider store={store}>
       <StaticRouter location={req.path} context={context}>
         <div>{renderRoutes(Routes)}</div>
       </StaticRouter>
     </Provider>
+    // </StyleSheetManager>
   );
   const helmet = Helmet.renderStatic();
   return `<!DOCTYPE html lang="en">
