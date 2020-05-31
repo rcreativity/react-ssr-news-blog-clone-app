@@ -77,7 +77,6 @@ const HomePage = (props) => {
     const getAllHideNews = getItem('hide_news') ? JSON.parse(getItem('hide_news')) : [];
     setItem('hide_news', JSON.stringify([...getAllHideNews, id]));
     setHideNews([...getAllHideNews, id]);
-    setGraphData([...getAllHideNews, id]);
   }
 
   const votesNewsFunction = (id) => {

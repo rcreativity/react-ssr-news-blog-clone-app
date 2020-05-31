@@ -8,7 +8,7 @@ export default function Loader() {
       <td></td>
       <td>
         <span className="up_vote">
-          <img src="https://media.giphy.com/media/jAYUbVXgESSti/giphy.gif" alt="loader" />
+          <div className="loader"></div>
         </span>
       </td>
       <td></td>
