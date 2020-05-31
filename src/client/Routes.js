@@ -9,12 +9,12 @@ export default [
       {
         ...HomePage,
         path: '/',
-        exact: true
+        exact: true,
       },
       {
         path: '/articles/:id',
-        ...NewsArticle
+        ...NewsArticle,
       },
-    ]
-  }
+    ],
+  },
 ];

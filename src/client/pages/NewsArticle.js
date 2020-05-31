@@ -1,53 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
-import { connect, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
-import { Table, Container, ButtonGroup } from './styled'
+import { Table, Container, ButtonGroup } from './styled';
 import { getNews } from '../actions/index';
+import { getItem, setItem } from '../../helpers/localStorage';
 
+import ArticleHeader from '../components/article-header/index';
+import Article from '../components/article/index';
+import Loader from '../components/loader/index';
 
 const NewsArticle = (props) => {
   const { match } = props;
   const { getNews: loadArticles } = props;
 
-  const dispatch = useDispatch()
-  const [pageNo, setPageNo] = useState(1);
-  const [nextPage, setNextPage] = useState(match.params.id)
+  const [hideNews, setHideNews] = useState(
+    getItem('hide_news') ? JSON.parse(getItem('hide_news')) : []
+  );
 
-  useEffect(() => {
-    setPageNo(pageNo + 1)
-  }, [])
-
-
+  const [nextPage, setNextPage] = useState(match.params.id);
+  const [prevPage, setPrevPage] = useState(match.params.id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     if (match.params.id) {
       loadArticles(match.params.id);
-      setNextPage(Number(match.params.id) + 1)
+      setNextPage(Number(match.params.id) + 1);
+      if (Number(match.params.id) > 1) {
+        setPrevPage(Number(match.params.id) - 1);
+      }
     } else {
       loadArticles();
     }
   }, [loadArticles, match.params.id]);
 
-  function getNextPage() {
-    if (pageNo > 1) {
-      setPageNo(pageNo + 1)
-      dispatch(getNews(pageNo))
-    }
-
+  function hideNewsFunction(id) {
+    const getAllHideNews = getItem('hide_news') ? JSON.parse(getItem('hide_news')) : [];
+    setItem('hide_news', JSON.stringify([...getAllHideNews, id]));
+    setHideNews([...getAllHideNews, id]);
   }
-
-  function getPreviousPage() {
-    if (pageNo >= 1) {
-      setPageNo(pageNo - 1)
-      dispatch(getNews(pageNo))
-    }
-
-  }
-
 
   return (
     <Container>
@@ -63,67 +56,57 @@ const NewsArticle = (props) => {
       </Helmet>
       <Table>
         <thead>
-          <tr>
-            <th>Comments</th>
-            <th>Vote Count</th>
-            <th>Up Vote</th>
-            <th>News Details</th>
-          </tr>
+          <ArticleHeader />
         </thead>
         <tbody>
-          {props.news.length === 0 ? (
-            <tr>
-              <td></td>
-              <td></td>
-              <td >
-                <span className="up_vote">
-                  <h1 style={{ color: '#ff732e' }}>No Data Available</h1>
-                </span>
-              </td>
-              <td></td>
-            </tr>
+          {props.loading ? (
+            <Loader />
           ) : (
-              props.news.map(({ num_comments, points, title, created_at_i }, index) => (
-                <tr key={index}>
-                  <td>{num_comments ? num_comments : 0}</td>
-                  <td>{points ? points : 0}</td>
-                  <td >
-                    <span className="up_vote">
-                      <img style={{ width: '12px' }} src="https://news.ycombinator.com/grayarrow2x.gif" alt="vote up" />
-                    </span>
-                  </td>
-                  <td className="articleTitle">
-                    <span>{title ? title : 'No Title'}</span>
-                    <span id={created_at_i}>
-                      <button type='button'>[ Hide ]</button>
-                    </span>
-                  </td>
-                </tr>
-              ))
-            )}
+            props.news.map(
+              ({ objectID, num_comments, points, title, url, author, created_at }, index) => {
+                if (hideNews.indexOf(objectID) > -1) return null;
+                return (
+                  <Article
+                    key={index}
+                    comments={num_comments}
+                    points={points}
+                    title={title}
+                    posted_on={created_at}
+                    web_url={url}
+                    author={author}
+                    id={objectID}
+                    hideHandlerFunction={hideNewsFunction}
+                  />
+                );
+              }
+            )
+          )}
         </tbody>
       </Table>
-      {/* <Link to="/articles/${match.params.id}">Page 2</Link> */}
-      <Link to={'/articles/' + nextPage}> Page {nextPage}</Link>
       <ButtonGroup>
-        <button onClick={getPreviousPage}>Previous</button>
-        <span></span>
-        <button onClick={getNextPage}>Next</button>
+        {Number(match.params.id) === 2 ? (
+          <Link to="/"> Previous</Link>
+        ) : (
+          <Link to={'/articles/' + prevPage}> Previous</Link>
+        )}
+
+        <span className="button_divider"></span>
+        <Link to={'/articles/' + nextPage}> Next</Link>
       </ButtonGroup>
-    </Container >
-  )
+      <br />
+    </Container>
+  );
 };
 
-
-const mapStateToProps = state => {
-  console.log(state.news.hits)
+const mapStateToProps = (state) => {
   return {
-    news: state.news.hits
+    news: state.news.data,
+    loading: state.news.loading,
   };
 };
 
 const loadData = (store, param) => {
-  console.log(param)
+  console.log(param);
   return store.dispatch(getNews(param));
 };
 
@@ -131,20 +114,19 @@ NewsArticle.propTypes = {
   news: PropTypes.arrayOf(PropTypes.any),
   location: PropTypes.objectOf(PropTypes.any),
   match: PropTypes.objectOf(PropTypes.any),
-  getNews: PropTypes.func
+  getNews: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 NewsArticle.defaultProps = {
   news: [],
   location: null,
   match: null,
-  getNews: null
+  getNews: null,
+  loading: true,
 };
 
 export default {
-  component: connect(
-    mapStateToProps,
-    { getNews }
-  )(NewsArticle),
-  loadData
+  component: connect(mapStateToProps, { getNews })(NewsArticle),
+  loadData,
 };
