@@ -14,16 +14,11 @@ import { ChartContainer } from './styled';
 export default function MyResponsiveLine({ data }) {
   return (
     <ChartContainer>
-      <ResponsiveContainer height="40%">
+      <ResponsiveContainer width="95%" height="40%" aspect={3}>
         <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="name"
-            // label="ID"
-          />
-          <YAxis
-          // label="Vote Counts"
-          />
+          <XAxis dataKey="name" />
+          <YAxis />
           <Tooltip />
           <Line
             connectNulls={true}
