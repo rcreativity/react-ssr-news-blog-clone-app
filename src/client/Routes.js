@@ -13,7 +13,7 @@ export default [
       },
       {
         path: '/articles/:id',
-        ...NewsArticle,
+        ...HomePage,
       },
     ],
   },

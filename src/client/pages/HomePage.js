@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
-import { Table, Container, ButtonGroup } from './styled';
+import { Table, Container, ButtonGroup, Hr } from './styled';
 import { getNews } from '../actions/index';
 import { getItem, setItem } from '../../helpers/localStorage';
 
@@ -14,31 +14,55 @@ import Article from '../components/article/index';
 import Loader from '../components/loader/index';
 
 const HomePage = (props) => {
-  const { getNews: loadArticles } = props;
+  const { getNews: loadArticles, match } = props;
 
-  const [graphData, setGraphData] = useState([
-    { name: 'Page A', uv: 4000 },
-    { name: 'Page B', uv: 3000 },
-    { name: 'Page C', uv: 2000 },
-    { name: 'Page D' },
-    { name: 'Page E', uv: 1890 },
-    { name: 'Page F', uv: 2390 },
-    { name: 'Page G', uv: 3490 },
-  ]);
+  const [graphData, setGraphData] = useState([]);
+
+  const [nextPage, setNextPage] = useState(match.params.id ? match.params.id : 2);
+  const [prevPage, setPrevPage] = useState(match.params.id);
 
   const [hideNews, setHideNews] = useState(
     getItem('hide_news') ? JSON.parse(getItem('hide_news')) : []
   );
 
+  function loopData() {
+    setGraphData([]);
+    let graphValues = props.news.reduce(function (result, item, index) {
+      console.log(item);
+      var pointsValue = item['points'];
+      var IdValue = item['objectID'];
+      var obj = {};
+      obj['name'] = IdValue;
+      obj['uv'] = pointsValue;
+      result.push(obj);
+      return result;
+    }, []);
+    setGraphData([...graphValues]);
+    console.log(graphData);
+  }
+
+  useEffect(() => {
+    loopData();
+  }, [props.loading]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    loadArticles();
-  }, [loadArticles]);
+    if (match.params.id) {
+      loadArticles(match.params.id);
+      setNextPage(Number(match.params.id) + 1);
+      if (Number(match.params.id) > 1) {
+        setPrevPage(Number(match.params.id) - 1);
+      }
+    } else {
+      loadArticles();
+    }
+  }, [loadArticles, match.params.id]);
 
   function hideNewsFunction(id) {
     const getAllHideNews = getItem('hide_news') ? JSON.parse(getItem('hide_news')) : [];
     setItem('hide_news', JSON.stringify([...getAllHideNews, id]));
     setHideNews([...getAllHideNews, id]);
+    setGraphData([...getAllHideNews, id]);
   }
 
   return (
@@ -83,13 +107,19 @@ const HomePage = (props) => {
         </tbody>
       </Table>
       <ButtonGroup>
-        <Link to="/">Previous</Link>
-        <span className="button_divider"></span>
-        <Link to="/articles/2">Next</Link>
-      </ButtonGroup>
+        {Number(match.params.id) === 2 || !match.params.id ? (
+          <Link to="/"> Previous</Link>
+        ) : (
+          <Link to={'/articles/' + prevPage}> Previous</Link>
+        )}
 
+        <span className="button_divider"></span>
+        <Link to={'/articles/' + nextPage}> Next</Link>
+      </ButtonGroup>
+      <Hr />
       <br />
-      <MyResponsiveLine data={graphData} />
+      {graphData && <MyResponsiveLine data={graphData} />}
+      <br />
     </Container>
   );
 };
@@ -101,18 +131,22 @@ const mapStateToProps = (state) => {
   };
 };
 
-const loadData = (store) => {
-  return store.dispatch(getNews());
+const loadData = (store, params) => {
+  return store.dispatch(getNews(params));
 };
 
 HomePage.propTypes = {
   news: PropTypes.arrayOf(PropTypes.any),
   getNews: PropTypes.func,
   loading: PropTypes.bool,
+  location: PropTypes.objectOf(PropTypes.any),
+  match: PropTypes.objectOf(PropTypes.any),
 };
 
 HomePage.defaultProps = {
   news: [],
+  location: null,
+  match: null,
   getNews: null,
   loading: true,
 };

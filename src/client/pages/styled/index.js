@@ -123,4 +123,11 @@ const ButtonGroup = styled.div`
   }
 `;
 
-export { Title, Table, Container, ButtonGroup };
+const Hr = styled.hr`
+  border: none;
+  height: 4px;
+  background-color: #ff732c;
+  margin-top: 15px;
+`;
+
+export { Title, Table, Container, ButtonGroup, Hr };

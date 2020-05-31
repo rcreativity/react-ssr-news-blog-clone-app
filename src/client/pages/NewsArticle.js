@@ -8,6 +8,7 @@ import { Table, Container, ButtonGroup } from './styled';
 import { getNews } from '../actions/index';
 import { getItem, setItem } from '../../helpers/localStorage';
 
+import MyResponsiveLine from '../components/line-chart/index';
 import ArticleHeader from '../components/article-header/index';
 import Article from '../components/article/index';
 import Loader from '../components/loader/index';
@@ -20,8 +21,24 @@ const NewsArticle = (props) => {
     getItem('hide_news') ? JSON.parse(getItem('hide_news')) : []
   );
 
+  const [graphData, setGraphData] = useState([]);
+
   const [nextPage, setNextPage] = useState(match.params.id);
   const [prevPage, setPrevPage] = useState(match.params.id);
+
+  useEffect(() => {
+    let red = props.news.reduce(function (result, item, index) {
+      console.log(item, item.num_comments, item.points);
+      var num_commentsValue = item['num_comments'];
+      var IdValue = item['objectID'];
+      var obj = {};
+      obj['name'] = IdValue;
+      obj['uv'] = num_commentsValue;
+      result.push(obj);
+      return result;
+    }, []);
+    setGraphData([...graphData, ...red]);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -94,6 +111,7 @@ const NewsArticle = (props) => {
         <Link to={'/articles/' + nextPage}> Next</Link>
       </ButtonGroup>
       <br />
+      {graphData && <MyResponsiveLine data={graphData} />}
     </Container>
   );
 };
