@@ -1,89 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import { Table, Container, ButtonGroup } from './styled';
 import { getNews } from '../actions/index';
-import { getItem, setItem } from '../../helpers/localStorage';
-
-import MyResponsiveLine from '../components/line-chart/index';
-import ArticleHeader from '../components/article-header/index';
-import Article from '../components/article/index';
-import Loader from '../components/loader/index';
 
 const HomePage = (props) => {
-  const { getNews: loadArticles } = props;
-
-  const [graphData, setGraphData] = useState([
-    {
-      data: [
-        {
-          x: 'plane',
-          y: 243,
-        },
-        {
-          x: 'helicopter',
-          y: 107,
-        },
-        {
-          x: 'boat',
-          y: 235,
-        },
-        {
-          x: 'train',
-          y: 284,
-        },
-        {
-          x: 'subway',
-          y: 214,
-        },
-        {
-          x: 'bus',
-          y: 166,
-        },
-        {
-          x: 'car',
-          y: 240,
-        },
-        {
-          x: 'moto',
-          y: 28,
-        },
-        {
-          x: 'bicycle',
-          y: 251,
-        },
-        {
-          x: 'horse',
-          y: 150,
-        },
-        {
-          x: 'skateboard',
-          y: 154,
-        },
-        {
-          x: 'others',
-          y: 94,
-        },
-      ],
-    },
-  ]);
-
-  const [hideNews, setHideNews] = useState(
-    getItem('hide_news') ? JSON.parse(getItem('hide_news')) : []
-  );
+  const dispatch = useDispatch();
+  const [pageNo, setPageNo] = useState(1);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    loadArticles();
-  }, [loadArticles]);
+    setPageNo(pageNo + 1);
+  }, []);
 
-  function hideNewsFunction(id) {
-    const getAllHideNews = getItem('hide_news') ? JSON.parse(getItem('hide_news')) : [];
-    setItem('hide_news', JSON.stringify([...getAllHideNews, id]));
-    setHideNews([...getAllHideNews, id]);
+  function getNextPage() {
+    if (pageNo > 1) {
+      setPageNo(pageNo + 1);
+      dispatch(getNews(pageNo));
+    }
+  }
+
+  function getPreviousPage() {
+    if (pageNo >= 1) {
+      setPageNo(pageNo - 1);
+      dispatch(getNews(pageNo));
+    }
   }
 
   return (
@@ -100,49 +43,46 @@ const HomePage = (props) => {
       </Helmet>
       <Table>
         <thead>
-          <ArticleHeader />
+          <tr>
+            <th>Comments</th>
+            <th>Vote Count</th>
+            <th>Up Vote</th>
+            <th>News Details</th>
+          </tr>
         </thead>
         <tbody>
-          {props.loading ? (
-            <Loader />
-          ) : (
-            props.news.map(
-              ({ objectID, num_comments, points, title, url, author, created_at }, index) => {
-                if (hideNews.indexOf(objectID) > -1) return null;
-                return (
-                  <Article
-                    key={index}
-                    id={objectID}
-                    comments={num_comments}
-                    points={points}
-                    title={title}
-                    posted_on={created_at}
-                    web_url={url}
-                    author={author}
-                    hideHandlerFunction={hideNewsFunction}
+          {props.news.map(({ num_comments, points, title }, index) => (
+            <tr key={index}>
+              <td>{num_comments ? num_comments : 0}</td>
+              <td>{points ? points : 0}</td>
+              <td>
+                <span className="up_vote">
+                  <img
+                    style={{ width: '12px' }}
+                    src="https://news.ycombinator.com/grayarrow2x.gif"
+                    alt="vote up"
                   />
-                );
-              }
-            )
-          )}
+                </span>
+              </td>
+              <td style={{ textAlign: 'left' }}>{title ? title : 'No Title'}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
+      <Link to="/articles/8">Page 2</Link>
       <ButtonGroup>
-        <Link to="/">Previous</Link>
-        <span className="button_divider"></span>
-        <Link to="/articles/2">Next</Link>
+        <button onClick={getPreviousPage}>Previous</button>
+        <span></span>
+        <button onClick={getNextPage}>Next</button>
       </ButtonGroup>
-
-      <br />
-      {/* <MyResponsiveLine data={graphData} /> */}
     </Container>
   );
 };
 
 const mapStateToProps = (state) => {
+  console.log(state.news.hits);
   return {
-    news: state.news.data,
-    loading: state.news.loading,
+    news: state.news.hits,
   };
 };
 
@@ -153,13 +93,11 @@ const loadData = (store) => {
 HomePage.propTypes = {
   news: PropTypes.arrayOf(PropTypes.any),
   getNews: PropTypes.func,
-  loading: PropTypes.bool,
 };
 
 HomePage.defaultProps = {
   news: [],
   getNews: null,
-  loading: true,
 };
 
 export default {
