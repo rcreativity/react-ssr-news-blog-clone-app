@@ -10,6 +10,7 @@ install:
 
 script:
   - npm test
+  - npm run test:coveralls
 
 nofications:
   email: false
