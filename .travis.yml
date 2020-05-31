@@ -1,15 +1,15 @@
-sudo : false
+sudo: false
 
-language : node_js
+language: node_js
 
 node_js:
-    - node
+  - node
 
 install:
-    - npm ci
+  - npm ci
 
-install:
-    - npm test
+script:
+  - npm test
 
 nofications:
-    email: false
+  email: false
