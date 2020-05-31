@@ -5,6 +5,5 @@
     "production": {
       "plugins": ["transform-react-remove-prop-types"]
     }
-  },
-  "presets": ["es2015"]
+  }
 }
