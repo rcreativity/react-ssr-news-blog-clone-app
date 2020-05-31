@@ -38,7 +38,7 @@ export default function Article(props) {
         {title}
         <span className="web_url">
           (
-          <a href={web_url} target="_blank">
+          <a href={web_url} target="_blank" rel="noopener noreferrer">
             {urlExtracted}
           </a>
           )
