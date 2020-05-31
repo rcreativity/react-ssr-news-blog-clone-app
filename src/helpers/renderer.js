@@ -20,11 +20,13 @@ export default (req, store, context) => {
     // </StyleSheetManager>
   );
   const helmet = Helmet.renderStatic();
-  return `<!DOCTYPE html lang="en">
+  return `<!DOCTYPE html>
+          <html lang="en">
             <head>
                 ${helmet.title.toString()}
                 ${helmet.meta.toString()}
                 ${helmet.link.toString()}
+                <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <style>
                   body{

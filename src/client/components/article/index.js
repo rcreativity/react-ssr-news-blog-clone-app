@@ -27,26 +27,38 @@ export default function Article(props) {
 
   return (
     <Tr>
-      <td>{comments}</td>
-      <td>{points + votes}</td>
-      <td>
-        <span className="up_vote" onClick={() => votesNewsHandlerFunction(id)}>
+      <td data-testid="comments_count">{comments}</td>
+      <td data-testid="votes_count">{points + votes}</td>
+      <td data-testid="votes_clicker">
+        <span
+          className="up_vote"
+          data-testid="vote_news_article"
+          onClick={() => votesNewsHandlerFunction(id)}
+        >
           <img src="https://news.ycombinator.com/grayarrow2x.gif" alt="vote up" />
         </span>
       </td>
-      <td className="articleTitle">
+      <td className="articleTitle" data-testid="news_title">
         {title}
-        <span className="web_url">
+        <span className="web_url" data-testid="news_weburl">
           (
           <a href={web_url} target="_blank" rel="noopener noreferrer">
             {urlExtracted}
           </a>
           )
         </span>
-        <span className="author_name">by {author}</span>
-        <span className="posted_time">{posted_date_format}</span>
+        <span className="author_name" data-testid="news_author">
+          by {author}
+        </span>
+        <span className="posted_time" data-testid="news_posted_date">
+          {posted_date_format}
+        </span>
         <span>
-          <button type="button" onClick={() => hideHandlerFunction(id)}>
+          <button
+            data-testid="hide_news_article"
+            type="button"
+            onClick={() => hideHandlerFunction(id)}
+          >
             [ Hide ]
           </button>
         </span>
