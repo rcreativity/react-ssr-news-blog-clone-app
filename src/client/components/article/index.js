@@ -9,7 +9,18 @@ import { extractHostnameFromURLString } from '../../../helpers/domainExtractor';
 dayjs.extend(relativeTime);
 
 export default function Article(props) {
-  const { id, comments, points, title, posted_on, author, web_url, hideHandlerFunction } = props;
+  const {
+    id,
+    comments,
+    points,
+    title,
+    posted_on,
+    author,
+    web_url,
+    hideHandlerFunction,
+    votesNewsHandlerFunction,
+    votes,
+  } = props;
 
   const urlExtracted = extractHostnameFromURLString(web_url);
   const posted_date_format = dayjs(posted_on).fromNow();
@@ -17,9 +28,9 @@ export default function Article(props) {
   return (
     <Tr>
       <td>{comments}</td>
-      <td>{points}</td>
+      <td>{points + votes}</td>
       <td>
-        <span className="up_vote">
+        <span className="up_vote" onClick={() => votesNewsHandlerFunction(id)}>
           <img src="https://news.ycombinator.com/grayarrow2x.gif" alt="vote up" />
         </span>
       </td>

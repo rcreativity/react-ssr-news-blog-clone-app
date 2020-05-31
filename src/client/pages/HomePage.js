@@ -25,24 +25,39 @@ const HomePage = (props) => {
     getItem('hide_news') ? JSON.parse(getItem('hide_news')) : []
   );
 
-  function loopData() {
+  const [votesNews, setUpVotesNews] = useState(
+    getItem('news_votes') ? JSON.parse(getItem('news_votes')) : [{}]
+  );
+
+  function getGraphData() {
     setGraphData([]);
     let graphValues = props.news.reduce(function (result, item, index) {
-      console.log(item);
-      var pointsValue = item['points'];
-      var IdValue = item['objectID'];
-      var obj = {};
-      obj['name'] = IdValue;
-      obj['uv'] = pointsValue;
-      result.push(obj);
-      return result;
+      let pointsValue, IdValue, obj;
+      if (getItem('news_votes')) {
+        let getVotes = JSON.parse(getItem('news_votes'));
+        let getItemValue = getVotes[item.objectID];
+        pointsValue = item['points'];
+        IdValue = item['objectID'];
+        obj = {};
+        obj['name'] = IdValue;
+        obj['uv'] = pointsValue + (getItemValue ? getItemValue : 0);
+        result.push(obj);
+        return result;
+      } else {
+        pointsValue = item['points'];
+        IdValue = item['objectID'];
+        obj = {};
+        obj['name'] = IdValue;
+        obj['uv'] = pointsValue;
+        result.push(obj);
+        return result;
+      }
     }, []);
     setGraphData([...graphValues]);
-    console.log(graphData);
   }
 
   useEffect(() => {
-    loopData();
+    getGraphData();
   }, [props.loading]);
 
   useEffect(() => {
@@ -64,6 +79,25 @@ const HomePage = (props) => {
     setHideNews([...getAllHideNews, id]);
     setGraphData([...getAllHideNews, id]);
   }
+
+  const votesNewsFunction = (id) => {
+    let getAllNewsVotes = getItem('news_votes') ? JSON.parse(getItem('news_votes')) : {};
+    if (getAllNewsVotes[id]) {
+      getAllNewsVotes[id] = getAllNewsVotes[id] + 1;
+    } else {
+      getAllNewsVotes[id] = 1;
+    }
+    setItem('news_votes', JSON.stringify(getAllNewsVotes));
+    setUpVotesNews(getAllNewsVotes);
+
+    let data = graphData.filter((x) => {
+      if (x.name === id) {
+        return (x.uv = x.uv + 1);
+      }
+      return true;
+    });
+    setGraphData([...data]);
+  };
 
   return (
     <Container>
@@ -93,12 +127,14 @@ const HomePage = (props) => {
                     key={index}
                     id={objectID}
                     comments={num_comments}
+                    votes={votesNews[objectID] || 0}
                     points={points}
                     title={title}
                     posted_on={created_at}
                     web_url={url}
                     author={author}
                     hideHandlerFunction={hideNewsFunction}
+                    votesNewsHandlerFunction={votesNewsFunction}
                   />
                 );
               }
