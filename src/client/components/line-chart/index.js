@@ -1,67 +1,21 @@
 import React from 'react';
-import { ResponsiveLine } from '@nivo/line';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
-const MyResponsiveLine = ({ data }) => (
-  <ResponsiveLine
-    data={data}
-    margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-    xScale={{ type: 'point' }}
-    yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-    axisTop={null}
-    axisRight={null}
-    axisBottom={{
-      orient: 'bottom',
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'ID',
-      legendOffset: 36,
-      legendPosition: 'middle',
-    }}
-    axisLeft={{
-      orient: 'left',
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'Votes',
-      legendOffset: -40,
-      legendPosition: 'middle',
-    }}
-    colors={{ scheme: 'nivo' }}
-    pointSize={10}
-    pointColor={{ theme: 'background' }}
-    pointBorderWidth={2}
-    pointBorderColor={{ from: 'serieColor' }}
-    pointLabel="y"
-    pointLabelYOffset={-12}
-    useMesh={true}
-    legends={[
-      {
-        anchor: 'bottom-right',
-        direction: 'column',
-        justify: false,
-        translateX: 100,
-        translateY: 0,
-        itemsSpacing: 0,
-        itemDirection: 'left-to-right',
-        itemWidth: 80,
-        itemHeight: 20,
-        itemOpacity: 0.75,
-        symbolSize: 12,
-        symbolShape: 'circle',
-        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-        effects: [
-          {
-            on: 'hover',
-            style: {
-              itemBackground: 'rgba(0, 0, 0, .03)',
-              itemOpacity: 1,
-            },
-          },
-        ],
-      },
-    ]}
-  />
-);
-
-export default MyResponsiveLine;
+export default function MyResponsiveLine({ data }) {
+  return (
+    <div>
+      <LineChart
+        width={600}
+        height={200}
+        data={data}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Line connectNulls={true} type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+      </LineChart>
+    </div>
+  );
+}
