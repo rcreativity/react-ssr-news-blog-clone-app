@@ -17,7 +17,8 @@
     "dev:build-client": "webpack --config webpack.client.js --watch",
     "dev:server": "nodemon --watch build --exec \"node build/bundle.js\"",
     "precommit": "pretty-quick --staged",
-    "test": "jest --watch"
+    "test": "jest",
+    "test:watch": "jest --watch",
   },
   "author": "Ravikumar R",
   "license": "ISC",
