@@ -35,9 +35,13 @@ open http://localhost:3000 to view project on the browser
 
 ![Travis ci cd](https://raw.githubusercontent.com/rcreativity/react-ssr-news-blog-clone-app/master/Screenshot/Screenshot%202020-06-01%20at%204.47.15%20AM.png 'travis ci cd test cases and code coverage')
 
+[Click to see report : Travis CI/ CD](https://travis-ci.org/github/rcreativity/react-ssr-news-blog-clone-app)
+
 ## Coverall code coverage report
 
 ![code coverage](https://github.com/rcreativity/react-ssr-news-blog-clone-app/blob/master/Screenshot/Screenshot%202020-06-01%20at%205.53.32%20AM.png?raw=true 'coverall code coverage')
+
+[Click to see report : coveralls code coverage](https://coveralls.io/github/rcreativity/react-ssr-news-blog-clone-app)
 
 ## Performance, SEO, Accessibility,
 
