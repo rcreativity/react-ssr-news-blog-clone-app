@@ -14,12 +14,12 @@ export const getNews = (pageNo) => async (dispatch) => {
         dispatch({
           type: FETCH_STARTED,
         });
-        setTimeout(() => {
-          dispatch({
-            type: FETCH_ARTICLES,
-            payload: res.hits,
-          });
-        }, 1000);
+        //setTimeout(() => {
+        dispatch({
+          type: FETCH_ARTICLES,
+          payload: res.hits,
+        });
+        //}, 1000);
       })
       .catch((err) => {
         dispatch({
